@@ -8,15 +8,15 @@
 
 int main() {
     int sock = socket(AF_INET, SOCK_STREAM, 0);
-    struct sockaddr_in serv_addr;
+    struct sockaddr_in address;
     char *http_req = "GET /index.html HTTP/1.1\r\nHost: localhost\r\n\r\n";
     char buffer[8192] = {0};
 
-    serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(PORT);
-    inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr);
+    address.sin_family = AF_INET;
+    address.sin_port = htons(PORT);
+    inet_pton(AF_INET, "127.0.0.1", &address.sin_addr);
 
-    connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
+    connect(sock, (struct sockaddr *)&address, sizeof(address));
     send(sock, http_req, strlen(http_req), 0);
     read(sock, buffer, sizeof(buffer) - 1);
 
