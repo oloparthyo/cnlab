@@ -7,7 +7,7 @@
 #define PORT 8083
 
 int main() {
-    int server_fd, new_socket;
+    int server_fd, client_fd;
     struct sockaddr_in address;
     int addrlen = sizeof(address);
     int expected_frame = 0, recv_frame;
@@ -20,9 +20,9 @@ int main() {
 
     bind(server_fd, (struct sockaddr *)&address, sizeof(address));
     listen(server_fd, 3);
-    new_socket = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
+    client_fd = accept(server_fd, (struct sockaddr *)&address, (socklen_t*)&addrlen);
 
-    while (read(new_socket, &recv_frame, sizeof(int)) > 0) {
+    while (read(client_fd, &recv_frame, sizeof(int)) > 0) {
         if (recv_frame == 2 && drop_once) {
             printf("[Receiver] Frame 2 LOST/CORRUPTED (Simulating drop)\n");
             drop_once = 0;
@@ -30,17 +30,17 @@ int main() {
         }
         if (recv_frame == expected_frame) {
             printf("[Receiver] Accepted Frame %d. Sending ACK %d\n", recv_frame, expected_frame);
-            send(new_socket, &expected_frame, sizeof(int), 0);
+            send(client_fd, &expected_frame, sizeof(int), 0);
             expected_frame++;
         } else {
             int last_ack = expected_frame - 1;
             printf("[Receiver] Out-of-order Frame %d discarded. Resending ACK %d\n", recv_frame, last_ack);
-            send(new_socket, &last_ack, sizeof(int), 0);
+            send(client_fd, &last_ack, sizeof(int), 0);
         }
         if (expected_frame == 6) break;
     }
 
-    close(new_socket);
+    close(client_fd);
     close(server_fd);
     return 0;
 }

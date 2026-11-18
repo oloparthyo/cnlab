@@ -18,7 +18,8 @@ int main() {
     connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
     printf("Enter command (e.g., pwd, ls, whoami): ");
     fgets(cmd, sizeof(cmd), stdin);
-    cmd[strcspn(cmd, "\n")] = 0;
+    int len = strlen(cmd);
+    cmd[len-1] = '\0';
 
     send(sock, cmd, strlen(cmd), 0);
     read(sock, buffer, sizeof(buffer) - 1);
