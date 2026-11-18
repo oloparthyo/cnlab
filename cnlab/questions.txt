@@ -1,0 +1,15 @@
+1. Write a client server socket program in C to implement TCP client server architecture. Description retrieve information (any text or system info) from TCP server to TCP client.
+
+2. Write a client server socket program in C to implement TCP chat server - two client system are connected to one central system.
+
+3. Write a socket program to implement Go-back-N ARQ protocol using TCP (high level implementing).
+
+4. Write an echo client and echo server using UDP to estimate the round trip time from client to server. The server should be such that it can accept multiple connection at given time.
+
+5. Write a program for connectionless iterative service in which server finds the factorial of a number sent by client.
+
+6. Write a Client - Server socket program in C to implement "FTP Server" using a TCP connection. On client request server have to send text saved file.txt and corresponding text has to print on client terminal.
+
+7. Write a program for Remote Command execution using sockets. The client send commands like pwd, ls, whoami, The server will execute the command and send back the result to client.
+
+8. Write a program to implement a Web Server. The client will request a web page to be accessed which resides on the server side.
