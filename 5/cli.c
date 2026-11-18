@@ -18,8 +18,16 @@ int main() {
     servaddr.sin_port = htons(PORT);
     inet_pton(AF_INET, "127.0.0.1", &servaddr.sin_addr);
 
-    printf("Enter a positive integer: ");
-    scanf("%d", &num);
+    printf("Enter a positive integer: ");\
+    int flag = 1;
+    while(flag){
+        scanf("%d", &num);
+        if(num < 0 || num > 20){
+            printf("Please enter a valid number (0-20): ");
+        } else {
+            flag = 0;
+        }
+    }
 
     sendto(sockfd, &num, sizeof(num), 0, (struct sockaddr *)&servaddr, len);
     recvfrom(sockfd, &res, sizeof(res), 0, (struct sockaddr *)&servaddr, (socklen_t *)&len);
